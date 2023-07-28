@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Mistrz słówek</title>
+    <link rel="stylesheet" href="style/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div id="app">
+        <main class="game" :class="{full: rightWords.length === 0}">
+<!--            add a point if the answer is correct,-->
+<!--            subtract 0.5 points if the answer is incorrect-->
+            <h2>Your result: {{pnkt}} point from {{lengthOfDictionary}} <br> Question {{numberOfquestion}} from {{lengthOfDictionary}}</h2>
+            <h1>Dictionary test</h1>
+            <h3 class="info info--standard" v-if="isAnswerRight === undefined">Lets start!</h3>
+<!--           use v-if to highlight one of the statements-->
+            <h3 class="info info--success" v-else-if="isAnswerRight === true">Right answer +1pkt!</h3>
+            <h3 class="info info--fail" v-else>Incorrect answer -0.5pkt!</h3>
+            <div class="canvas" v-if="numberOfquestion < lengthOfDictionary">
+                <div class="wrapper">
+                    <div class="task task--local">
+                        <input
+                                class="field field--local"
+                                type="text"
+                                disabled
+                                v-bind:value="currentKey">
+                        <!-- output the current key from the dictionary object-->
+                    </div>
+                    <div class="task__equals">
+                        =
+                    </div>
+                    <div class="task task--foreign">
+                        <input
+                                class="field field--foreign"
+                                type="text"
+                                v-model="answer">
+                    </div>
+                </div>
+            </div>
+            <div class="wrapper">
+                <button class="btn" id="btn" @click="checkAnswer">{{buttonText}}</button>
+            </div>
+            <div v-else>
+                <h2 class="result">You finish a game with result: {{pnkt}}point!</h2>
+            </div>
+        </main>
+        <aside class="dictionary" :class="{visible: rightWords.length >= 1}">
+            <h4>Dictionary</h4>
+            <hr>
+            <table>
+                <tr v-for="word in rightWords">
+                    <td>
+                        {{word.value}} -
+                    </td>
+                    <th>
+                        {{word.key}}
+                    </th>
+                </tr>
+            </table>
+        </aside>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
